@@ -41,6 +41,11 @@ public class TextUtility
     public static final int CT_INDEX = CT_SINGLE + 5;// HanYu Pinyin
 
     /**
+     * 中文数字
+     */
+    public static final int CT_CNUM = CT_SINGLE + 6;
+
+    /**
      * 其他
      */
     public static final int CT_OTHER = CT_SINGLE + 12;// Other
@@ -59,7 +64,7 @@ public class TextUtility
     {
         if (str != null && str.length() > 0)
         {
-            if ("零○〇一二两三四五六七八九十廿百千万亿壹贰叁肆伍陆柒捌玖拾佰仟".contains(str)) return CT_NUM;
+            if ("零○〇一二两三四五六七八九十廿百千万亿壹贰叁肆伍陆柒捌玖拾佰仟".contains(str)) return CT_CNUM;
             byte[] b;
             try
             {

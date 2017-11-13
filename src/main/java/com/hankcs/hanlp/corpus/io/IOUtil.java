@@ -14,6 +14,7 @@ package com.hankcs.hanlp.corpus.io;
 
 import com.hankcs.hanlp.corpus.tag.Nature;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
+import com.hankcs.hanlp.utility.LexiconUtility;
 import com.hankcs.hanlp.utility.TextUtility;
 
 import java.io.*;
@@ -325,7 +326,7 @@ public class IOUtil
     {
         LinkedList<String> result = new LinkedList<String>();
         String line = null;
-        boolean first = false;
+        boolean first = true;
         try
         {
             BufferedReader bw = new BufferedReader(new InputStreamReader(IOUtil.newInputStream(path), "UTF-8"));
@@ -334,8 +335,7 @@ public class IOUtil
                 if (first)
                 {
                     first = false;
-                    char ch = line.charAt(0);
-                    if (ch == '\uFEFF')
+                    if (!line.isEmpty() && line.charAt(0) == '\uFEFF')
                         line = line.substring(1);
                 }
                 result.add(line);
@@ -620,7 +620,7 @@ public class IOUtil
             CoreDictionary.Attribute attribute = new CoreDictionary.Attribute(natureCount);
             for (int i = 0; i < natureCount; ++i)
             {
-                attribute.nature[i] = Enum.valueOf(Nature.class, param[1 + 2 * i]);
+                attribute.nature[i] = LexiconUtility.convertStringToNature(param[1 + 2 * i]);
                 attribute.frequency[i] = Integer.parseInt(param[2 + 2 * i]);
                 attribute.totalFrequency += attribute.frequency[i];
             }
@@ -637,5 +637,16 @@ public class IOUtil
         {
             TextUtility.writeString(nature.toString(), out);
         }
+    }
+
+    /**
+     * 本地文件是否存在
+     * @param path
+     * @return
+     */
+    public static boolean isFileExisted(String path)
+    {
+        File file = new File(path);
+        return file.isFile() && file.exists();
     }
 }
